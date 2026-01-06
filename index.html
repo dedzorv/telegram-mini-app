@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Telegram Clicker</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0f172a;
+            color: white;
+            text-align: center;
+            padding: 40px;
+        }
+        button {
+            font-size: 24px;
+            padding: 20px 40px;
+            border-radius: 12px;
+            border: none;
+            background: #22c55e;
+            cursor: pointer;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body>
+
+<h1>👆 Кликер</h1>
+<p>Кликов: <span id="count">0</span></p>
+
+<button onclick="clickMe()">КЛИК</button>
+
+<script>
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+
+    let clicks = 0;
+
+    function clickMe() {
+        clicks++;
+        document.getElementById("count").innerText = clicks;
+
+        // отправка данных боту
+        tg.sendData(JSON.stringify({
+            action: "click",
+            count: clicks
+        }));
+    }
+</script>
+
+</body>
+</html>
