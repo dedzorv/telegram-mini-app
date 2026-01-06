@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <title>Telegram Mini App Clicker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- Telegram Mini App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
 
     <style>
         body {
             margin: 0;
-            padding: 0;
             background: #0f172a;
             color: white;
             font-family: Arial, sans-serif;
@@ -21,28 +18,16 @@
             align-items: center;
             height: 100vh;
         }
-
-        h1 {
-            margin-bottom: 10px;
-        }
-
         #count {
             font-size: 32px;
-            margin-bottom: 20px;
+            margin: 20px;
         }
-
         button {
             font-size: 24px;
             padding: 20px 40px;
             border-radius: 14px;
             border: none;
             background: #22c55e;
-            color: black;
-            cursor: pointer;
-        }
-
-        button:active {
-            transform: scale(0.95);
         }
     </style>
 </head>
@@ -51,24 +36,25 @@
 <h1>👆 Кликер</h1>
 <div>Кликов:</div>
 <div id="count">0</div>
-
 <button onclick="clickMe()">КЛИК</button>
 
 <script>
-    // Инициализация Telegram Mini App
     const tg = window.Telegram.WebApp;
-    tg.expand(); // разворачиваем на весь экран
+    tg.expand();
 
     let clicks = 0;
 
     function clickMe() {
         clicks++;
         document.getElementById("count").innerText = clicks;
-
-        // ❌ ВАЖНО:
-        // НЕ используем tg.sendData()
-        // иначе Mini App закроется
     }
+
+    // 🔥 ОТПРАВКА ДАННЫХ ПРИ ЗАКРЫТИИ MINI APP
+    tg.onEvent("beforeUnload", () => {
+        tg.sendData(JSON.stringify({
+            clicks: clicks
+        }));
+    });
 </script>
 
 </body>
