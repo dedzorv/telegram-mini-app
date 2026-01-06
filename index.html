@@ -28,6 +28,7 @@
             border-radius: 14px;
             border: none;
             background: #22c55e;
+            margin: 10px;
         }
     </style>
 </head>
@@ -36,14 +37,16 @@
 <h1>👆 Кликер</h1>
 <div>Кликов:</div>
 <div id="count">0</div>
+
 <button onclick="clickMe()">КЛИК</button>
+<button onclick="save()">💾 Сохранить</button>
 
 <script>
     const tg = window.Telegram.WebApp;
     tg.ready();
     tg.expand();
 
-    // читаем клики
+    // читаем сохранённые клики из URL
     const params = new URLSearchParams(window.location.search);
     let clicks = parseInt(params.get("clicks")) || 0;
 
@@ -55,15 +58,12 @@
         countEl.innerText = clicks;
     }
 
-    // 🔥 КНОПКА СОХРАНЕНИЯ (НАДЁЖНО)
-    tg.MainButton.setText("💾 Сохранить и выйти");
-    tg.MainButton.show();
-
-    tg.MainButton.onClick(() => {
+    function save() {
         tg.sendData(JSON.stringify({
             clicks: clicks
         }));
-    });
+        // Telegram сам закроет Mini App
+    }
 </script>
 
 </body>
