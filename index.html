@@ -2,25 +2,45 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <title>Telegram Clicker</title>
+    <title>Telegram Mini App Clicker</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Telegram Mini App SDK -->
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
+
     <style>
         body {
-            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
             background: #0f172a;
             color: white;
-            text-align: center;
-            padding: 40px;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
         }
+
+        h1 {
+            margin-bottom: 10px;
+        }
+
+        #count {
+            font-size: 32px;
+            margin-bottom: 20px;
+        }
+
         button {
             font-size: 24px;
             padding: 20px 40px;
-            border-radius: 12px;
+            border-radius: 14px;
             border: none;
             background: #22c55e;
+            color: black;
             cursor: pointer;
         }
+
         button:active {
             transform: scale(0.95);
         }
@@ -29,13 +49,15 @@
 <body>
 
 <h1>👆 Кликер</h1>
-<p>Кликов: <span id="count">0</span></p>
+<div>Кликов:</div>
+<div id="count">0</div>
 
 <button onclick="clickMe()">КЛИК</button>
 
 <script>
+    // Инициализация Telegram Mini App
     const tg = window.Telegram.WebApp;
-    tg.expand();
+    tg.expand(); // разворачиваем на весь экран
 
     let clicks = 0;
 
@@ -43,11 +65,9 @@
         clicks++;
         document.getElementById("count").innerText = clicks;
 
-        // отправка данных боту
-        tg.sendData(JSON.stringify({
-            action: "click",
-            count: clicks
-        }));
+        // ❌ ВАЖНО:
+        // НЕ используем tg.sendData()
+        // иначе Mini App закроется
     }
 </script>
 
