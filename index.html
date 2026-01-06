@@ -42,18 +42,24 @@
     const tg = window.Telegram.WebApp;
     tg.expand();
 
-    let clicks = 0;
+    // 🔥 читаем клики из URL
+    const params = new URLSearchParams(window.location.search);
+    let clicks = parseInt(params.get("clicks")) || 0;
+
+    document.getElementById("count").innerText = clicks;
 
     function clickMe() {
         clicks++;
         document.getElementById("count").innerText = clicks;
     }
 
-    // 🔥 ОТПРАВКА ДАННЫХ ПРИ ЗАКРЫТИИ MINI APP
-    tg.onEvent("beforeUnload", () => {
-        tg.sendData(JSON.stringify({
-            clicks: clicks
-        }));
+    // ✅ правильное событие закрытия
+    tg.onEvent("viewportChanged", () => {
+        if (!tg.isExpanded) {
+            tg.sendData(JSON.stringify({
+                clicks: clicks
+            }));
+        }
     });
 </script>
 
