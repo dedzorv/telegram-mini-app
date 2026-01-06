@@ -43,6 +43,7 @@
     tg.ready();
     tg.expand();
 
+    // читаем клики
     const params = new URLSearchParams(window.location.search);
     let clicks = parseInt(params.get("clicks")) || 0;
 
@@ -54,7 +55,11 @@
         countEl.innerText = clicks;
     }
 
-    tg.onEvent("closing", () => {
+    // 🔥 КНОПКА СОХРАНЕНИЯ (НАДЁЖНО)
+    tg.MainButton.setText("💾 Сохранить и выйти");
+    tg.MainButton.show();
+
+    tg.MainButton.onClick(() => {
         tg.sendData(JSON.stringify({
             clicks: clicks
         }));
